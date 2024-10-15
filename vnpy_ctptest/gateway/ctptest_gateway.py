@@ -270,11 +270,13 @@ class CtptestMdApi(MdApi):
 
     def onFrontConnected(self) -> None:
         """服务器连接成功回报"""
+        print("ipq onFrontConnected")
         self.gateway.write_log("行情服务器连接成功")
         self.login()
 
     def onFrontDisconnected(self, reason: int) -> None:
         """服务器连接断开回报"""
+        print("ipq onFrontDisconnected", reason)
         self.login_status = False
         self.gateway.write_log(f"行情服务器连接断开，原因{reason}")
 
@@ -303,6 +305,7 @@ class CtptestMdApi(MdApi):
     def onRtnDepthMarketData(self, data: dict) -> None:
         """行情数据推送"""
         # 过滤没有时间戳的异常行情数据
+        print("onRtnDepthMarketData", data)
         if not data["UpdateTime"]:
             return
 
@@ -444,6 +447,7 @@ class CtptestTdApi(TdApi):
 
     def onFrontConnected(self) -> None:
         """服务器连接成功回报"""
+        print("ipq onFrontConnected")
         self.gateway.write_log("交易服务器连接成功")
 
         if self.auth_code:
@@ -453,6 +457,7 @@ class CtptestTdApi(TdApi):
 
     def onFrontDisconnected(self, reason: int) -> None:
         """服务器连接断开回报"""
+        print("ipq onFrontDisconnected", reason)
         self.login_status = False
         self.gateway.write_log(f"交易服务器连接断开，原因{reason}")
 
@@ -728,6 +733,7 @@ class CtptestTdApi(TdApi):
         appid: str
     ) -> None:
         """连接服务器"""
+        print("connect ipq:", address, userid, password, brokerid, auth_code, appid)
         self.userid = userid
         self.password = password
         self.brokerid = brokerid
